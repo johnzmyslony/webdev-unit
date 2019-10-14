@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Leaflet Map</title>
+   <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" /> 
+</head>
+<body>
+    
+<!-- Our web map and content will go here -->
+        <div 
+            id="map" style="width: 705px; height: 375px">
+        </div>
+    
+<!-- Add the Leaflet JavaScript library -->
+    <script 
+        // src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js">
+    </script>
+    
+    <script>
+// Create variable to hold map element, give initial settings to map
+// Changing center coordinates to UMD
+// Changing zoom to focus on UMD
+        var map = L.map('map',{ center: [46.818729, -92.083560], zoom: 15});
+        
+// Add OpenStreetMap tile layer to map element
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+        
+/* Add WMS - not sure if it worked
+   var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+        layers: 'nexrad-n0r-900913',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Weather data © 2012 IEM Nexrad"
+    }); */
+        
+// Add Esri basemap - couldnt make it work
+    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' }).addto(map);
+        
+    </script>
+    
+</body>
+</html>
