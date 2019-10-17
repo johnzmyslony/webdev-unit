@@ -2,22 +2,73 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Leaflet Map</title>
+	<title>Greatest Leaflet Map</title>
    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+      <style>
+           
+/* Allow Map to fill page*/
+/* source: http://bl.ocks.org/d3noob/7654694 */
+        body {
+            padding: 0;
+            margin: 0;
+                }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+                }
+           map {
+               top: 60px;
+                }
+/*Stylize Header*/
+           header {
+               top: 0;
+               width: 100%;
+               z-index: 999999;
+                position: fixed;
+                height: 60px;
+               background-color: maroon;
+               color: gold;
+               Padding-left: 12px;
+               font-size: 15px;
+               overflow: hidden;
+               font-family: "Times New Roman", Times, serif;
+                }
+/* Display text inline*/
+           header * {            
+               Display: inline-block;
+               margin-right: 20px;
+               margin-top: 10px
+                }
+           .right {
+               float: right;
+           }
+    </style> 
 </head>
 <body>
+<!-- Header to be placed at top of web page -->
+    <header  id="header">
+        <h2> The Greatest Leaflet Map to Ever Exist</h2>
+        <h3>I built this with <a href="https://leafletjs.com/" target="_blank">Leaflet</a></h3>
+        <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>  
+    </header>
     
 <!-- Our web map and content will go here -->
         <div 
-            id="map" style="width: 705px; height: 375px">
+            id="map">
         </div>
     
 <!-- Add the Leaflet JavaScript library -->
     <script 
         src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js">>
     </script>
-    
+        
+<!-- Add Leaflet Omnivore plugin to code -->
+    <script
+        src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'>
+    </script>
+ 
+<!-- Here we will insert the data to be displayed on the map -->
     <script>
 // Create variable to hold map element, give initial settings to map
         var map = L.map('map',{ center: [42.362432, -71.086086], zoom: 14});
@@ -36,6 +87,20 @@
         var myArea = L.polygon([[42.353770, -71.103606], [42.355447, -71.104475],
     [42.362681, -71.089830], [42.361829, -71.079230]],
     {color: 'blue', weight: 4}).addTo(map);
+        
+// Create custom airplane marker for airports.csv
+       var myAirplane = L.icon({
+            iconUrl:'https://raw.githubusercontent.com/gis4533-fall2019/webdev-unit/master/airport.png',
+            iconSize:  [40, 40], // size of the icon
+        }) 
+
+// Create custom layer as template for airports layer
+// Code adapted from https://kristofj-umd.github.io/webdev-f19/assignments/webdev2.html
+       var customLayer = L.geoJson(null, {pointToLayer: function(feature,latlng){return L.marker(latlng,{icon: myAirplane});}});
+        
+// Create airports feature from airports csv
+        var myAirportsCsv = omnivore.csv('https://raw.githubusercontent.com/gis4533-fall2019/webdev-unit/master/airports.csv', null, customLayer).addTo(map);
+
 /* Add WMS - not sure if it worked
    var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
         layers: 'nexrad-n0r-900913',
