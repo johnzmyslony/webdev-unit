@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Greatest Leaflet Map</title>
+   <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+       <style>
+           
+/* Allow Map to fill page*/
+/* source: http://bl.ocks.org/d3noob/7654694 */
+        body {
+            padding: 0;
+            margin: 0;
+                }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+                }
+           map {
+               top: 60px;
+                }
+           
+/*Stylize Header*/
+           header {
+               top: 0;
+               width: 100%;
+               z-index: 999999;
+                position: fixed;
+                height: 60px;
+               background-color: maroon;
+               color: gold;
+               Padding-left: 12px;
+               font-size: 15px;
+               overflow: hidden;
+               font-family: "Times New Roman", Times, serif;
+                }
+/* Display text inline*/
+           header * {            
+               Display: inline-block;
+               margin-right: 20px;
+               margin-top: 10px
+                }
+           .right {
+               float: right;
+           }
+    </style> 
+</head>
+<body>
+    
+<!-- Header to be placed at top of web page -->
+    <header  id="header">
+        <h2> The Greatest Leaflet Map to Ever Exist</h2>
+        <h3>I built this with <a href="https://leafletjs.com/" target="_blank">Leaflet</a></h3>
+        <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>  
+    </header>
+    
+<!-- Our web map and content will go here -->
+        <div 
+            id="map">
+        </div>
+    
+<!-- Add the Leaflet JavaScript library -->
+    <script 
+        src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js">>
+    </script>
+    
+    <script>
+// Create variable to hold map element, give initial settings to map
+        var map = L.map('map',{ center: [42.362432, -71.086086], zoom: 14});
+        
+// Add OpenStreetMap tile layer to map element
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+
+/*Bloacked out following for webdev1 save
+
+// Create point feature for Kendall Square T Station
+        var myDataPoint = L.marker([42.362432, -71.086086]).addTo(map);
+        
+// Create line feature for Mass Ave Bridge, style and add to map
+        var myDataLine = L.polyline([[42.357227, -71.092631], [42.351411, -71.089723]],
+    {color: 'red', weight: 10}).addTo(map);
+
+// Create area feature for MIT, style and add to map
+        var myArea = L.polygon([[42.353770, -71.103606], [42.355447, -71.104475],
+    [42.362681, -71.089830], [42.361829, -71.079230]],
+    {color: 'blue', weight: 4}).addTo(map);
+ Add WMS - not sure if it worked
+   var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+        layers: 'nexrad-n0r-900913',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Weather data © 2012 IEM Nexrad"
+    });
+        
+// Add Esri basemap - couldnt make it work
+    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' }).addto(map);
+        
+Blocked out previous for webdev1 save */
+        
+    </script>
+    
+</body>
+</html>

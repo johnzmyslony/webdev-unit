@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Leaflet Map</title>
+   <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />
+</head>
+<body>
+    
+<!-- Our web map and content will go here -->
+        <div 
+            id="map" style="width: 705px; height: 375px">
+        </div>
+    
+<!-- Add the Leaflet JavaScript library -->
+    <script 
+        src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js">>
+    </script>
+    
+<!-- Add Leaflet Omnivore plugin to code -->
+    <script
+        src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.3.1/leaflet-omnivore.min.js'>
+    </script>
+    
+    <script>
+// Create variable to hold map element, give initial settings to map
+        var map = L.map('map',{ center: [42.362432, -71.086086], zoom: 14});
+        
+// Add OpenStreetMap tile layer to map element
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+        
+// Create point feature for Kendall Square T Station
+        var myDataPoint = L.marker([42.362432, -71.086086]).addTo(map);
+        
+// Create line feature for Mass Ave Bridge, style and add to map
+        var myDataLine = L.polyline([[42.357227, -71.092631], [42.351411, -71.089723]],
+    {color: 'red', weight: 10}).addTo(map);
+
+// Create area feature for MIT, style and add to map
+        var myArea = L.polygon([[42.353770, -71.103606], [42.355447, -71.104475],
+    [42.362681, -71.089830], [42.361829, -71.079230]],
+    {color: 'blue', weight: 4}).addTo(map);
+   
+// Create custom airplane marker for airports.csv
+       var myAirplane = L.icon({
+            iconUrl:'https://raw.githubusercontent.com/gis4533-fall2019/webdev-unit/master/airport.png',
+            iconSize:  [40, 40], // size of the icon
+        }) 
+
+// Create custom layer as template for airports layer
+// Code adapted from https://kristofj-umd.github.io/webdev-f19/assignments/webdev2.html
+       var customLayer = L.geoJson(null, {pointToLayer: function(feature,latlng){return L.marker(latlng,{icon: myAirplane});}});
+        
+// Create airports feature from airports csv
+        var myAirportsCsv = omnivore.csv('https://raw.githubusercontent.com/gis4533-fall2019/webdev-unit/master/airports.csv', null, customLayer).addTo(map);
+
+// IMPORTANT *** Webdev2 was performed before Webdev1
+// IMPORTANT *** Refer to Webdev1 to see product with header, link, etc
+        
+/* Add WMS - not sure if it worked
+   var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
+        layers: 'nexrad-n0r-900913',
+        format: 'image/png',
+        transparent: true,
+        attribution: "Weather data © 2012 IEM Nexrad"
+    }); */
+        
+// Add Esri basemap - couldnt make it work
+    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' }).addto(map);
+        
+    </script>
+    
+</body>
+</html>
