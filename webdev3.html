@@ -98,6 +98,21 @@
 // Bind popup to area object
         myArea.bindPopup("MIT Campus");
         
+// Creat lat long popup with click
+// Create an Empty Popup
+        var popup = L.popup();
+
+// Write function to set Properties of the Popup
+        function onMapClick(e) {
+            popup
+                .setLatLng(e.latlng)
+                .setContent("You clicked the map at " + e.latlng.toString())
+                .openOn(map);
+}
+
+// Listen for a click event on the Map element
+        map.on('click', onMapClick);
+        
 // Create custom airplane marker for airports.csv
        var myAirplane = L.icon({
             iconUrl:'https://raw.githubusercontent.com/gis4533-fall2019/webdev-unit/master/airport.png',
