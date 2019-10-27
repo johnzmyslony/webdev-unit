@@ -78,27 +78,47 @@
 // Add OpenStreetMap tile layer to map element
 // Changed to OpenTopoMap basemap
         L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)' }).addTo(map);
-        
+ 
+/* Do not need MIT shape data      
 // Create point feature for Kendall Square T Station
-        var myDataPoint = L.marker([42.819783, -71.086086]).addTo(map);
-        
+        var myDataPoint = L.marker([42.819783, -71.086086]).addTo(map);     
 // Bind popup to Data Point object
-        myDataPoint.bindPopup("<h3>Kendall Square</h3><p>Cambridge, MA<br>Information about Kendall Square.</p>");
-        
+        myDataPoint.bindPopup("<h3>Kendall Square</h3><p>Cambridge, MA<br>Information about Kendall Square.</p>");      
 // Create line feature for Mass Ave Bridge, style and add to map
         var myDataLine = L.polyline([[42.357227, -71.092631], [42.351411, -71.089723]],
-    {color: 'red', weight: 10}).addTo(map);
-        
+    {color: 'red', weight: 10}).addTo(map);       
 // Bind popup to line object
         myDataLine.bindPopup("Mass Ave Bridge");
-
 // Create area feature for MIT, style and add to map
         var myArea = L.polygon([[42.353770, -71.103606], [42.355447, -71.104475],
     [42.362681, -71.089830], [42.361829, -71.079230]],
+    {color: 'blue', weight: 4}).addTo(map);       
+// Bind popup to area object
+        myArea.bindPopup("MIT Campus");      
+Do not need MIT shape data */
+  
+// Create UMD shape data       
+// Create point feature for UMD White Lot
+        var myDataPointUmd = L.marker([46.816270, -92.090947]).addTo(map);
+        
+// Bind popup to White Lot Data Point object
+        myDataPointUmd.bindPopup("<h3>UMD White Lot</h3><p>This is where I like to park everyday<br>Yeah, it is quite the walk</p>");
+        
+// Create line feature for Tischer Creek Bridge, style and add to map
+        var myDataLineUmd = L.polyline([[46.8214822, -92.080624], [46.821735, -92.080129]],
+    {color: 'green', weight: 7}).addTo(map);
+        
+// Bind popup to line object
+        myDataLineUmd.bindPopup("<h3>Tischer Creek Bridge</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>")   
+
+
+// Create area feature for Tennis Courts, style and add to map
+        var myAreaUmd = L.polygon([[46.817994, -92.081622], [46.817724, -92.080985],
+    [46.817997, -92.080740], [46.818264, -92.081375]],
     {color: 'blue', weight: 4}).addTo(map);
         
 // Bind popup to area object
-        myArea.bindPopup("MIT Campus");
+        myAreaUmd.bindPopup("<h3>Tennis courts</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>");
         
 // Creat lat long popup with click
 // Create an Empty Popup
