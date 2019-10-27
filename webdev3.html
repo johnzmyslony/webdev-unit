@@ -73,13 +73,13 @@
     
     <script>
 // Create variable to hold map element, give initial settings to map
-        var map = L.map('map',{ center: [42.362432, -71.086086], zoom: 14});
+        var map = L.map('map',{ center: [46.8190, -92.0840], zoom: 16});
         
 // Add OpenStreetMap tile layer to map element
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
         
 // Create point feature for Kendall Square T Station
-        var myDataPoint = L.marker([42.362432, -71.086086]).addTo(map);
+        var myDataPoint = L.marker([42.819783, -71.086086]).addTo(map);
         
 // Bind popup to Data Point object
         myDataPoint.bindPopup("<h3>Kendall Square</h3><p>Cambridge, MA<br>Information about Kendall Square.</p>");
