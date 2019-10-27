@@ -43,6 +43,13 @@
            .right {
                float: right;
            }
+/* Style Coordinates */
+          #coord {
+              color: blue;
+              z-index: 999;
+              position: relative;
+              margin: 20px;
+          }
     </style> 
 </head>
 <body>
@@ -50,13 +57,18 @@
     <header  id="header">
         <h2> The Greatest Leaflet Map to Ever Exist</h2>
         <h3>I built this with <a href="https://leafletjs.com/" target="_blank">Leaflet</a></h3>
-        <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>  
+        <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>
     </header>
     
 <!-- Our web map and content will go here -->
         <div 
             id="map">
         </div>
+    
+<!-- The container for map coordinates-->
+        <pre
+             id="coord">Map Coordinates | {}
+        </pre>
     
 <!-- Add the Leaflet JavaScript library -->
     <script 
@@ -119,22 +131,31 @@ Do not need MIT shape data */
         
 // Bind popup to area object
         myAreaUmd.bindPopup("<h3>Tennis courts</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>");
+
+// Display lat/long with mouse over
+            map.on('mousemove', function (e) {
+                console.log('mousemove', e)
+                document.getElementById('coord').innerHTML =
+// e.point is the x, y coordinates of the mousemove event relative
+// to the top-left corner of the map
+// e.lngLat is the longitude, latitude geographical position of the event
+                    JSON.stringify(e.point) + '<br />' +
+                    JSON.stringify(e.lngLat.wrap());
+});
         
+/* Uneeded display of lat and long
 // Creat lat long popup with click
 // Create an Empty Popup
         var popup = L.popup();
-
 // Write function to set Properties of the Popup
         function onMapClick(e) {
             popup
                 .setLatLng(e.latlng)
                 .setContent("You clicked the map at " + e.latlng.toString())
-                .openOn(map);
-}
-
+                .openOn(map);}
 // Listen for a click event on the Map element
-        map.on('click', onMapClick);
-       
+        map.on('click', onMapClick);      
+Uneeded display of lat and long */
     </script>
 
 <!-- Everything here will be the custom/webdev data -->
