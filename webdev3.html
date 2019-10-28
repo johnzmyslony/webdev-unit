@@ -9,12 +9,13 @@
            
 /* Allow Map to fill page*/
 /* source: http://bl.ocks.org/d3noob/7654694 */
+/* CSS adjusted to display map coordinates source: https://kristofj-umd.github.io/webdev-f19/assignments/webdev3.html*/
         body {
             padding: 0;
             margin: 0;
                 }
         html, body, #map {
-            height: 100%;
+            height: calc(100vh - 60px);
             width: 100%;
                 }
            map {
@@ -38,13 +39,13 @@
            header * {            
                Display: inline-block;
                margin-right: 20px;
-               margin-top: 10px
+               margin-top: 10px;
                 }
            .right {
                float: right;
            }
 /* Style Coordinates */
-          #coord {
+          #mapCoordinates {
               color: blue;
               z-index: 999999;
               position: relative;
@@ -67,8 +68,8 @@
     
 <!-- The container for map coordinates-->
         <pre
-             id='coord'>
-        </pre>
+             id='mapCoordinates'>
+    </pre>
     
 <!-- Add the Leaflet JavaScript library -->
     <script 
@@ -163,10 +164,11 @@ Uneeded display of lat and long */
         myAreaUmd.bindPopup("<h3>Tennis courts</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>");
 
 // Display lat/long with mouse over
-            map.on('mousemove', function (event) 
-                   {console.log('mousemove', event)
-                    document.getElementById('coord').innerHTML = 
-                    'Map Coordinates | ' + JSON.stringify(event.latlng);
+// Code adapted from https://kristofj-umd.github.io/webdev-f19/assignments/webdev3.html
+            map.on('mousemove', function (hoverEvent) 
+                   {console.log('mousemove', hoverEvent)
+                    document.getElementById('mapCoordinates').innerHTML = 
+                    'Map Coordinates | ' + JSON.stringify(hoverEvent.latlng);
                     });
         
 /* Add WMS - not sure if it worked
