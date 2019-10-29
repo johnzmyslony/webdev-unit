@@ -101,8 +101,7 @@
     {color: 'blue', weight: 4}).addTo(map);       
 // Bind popup to area object
         myArea.bindPopup("MIT Campus");      
-Do not need MIT shape data */
-        
+Do not need MIT shape data */      
 /* Uneeded display of lat and long
 // Creat lat long popup with click
 // Create an Empty Popup
@@ -153,7 +152,10 @@ Uneeded display of lat and long */
     {color: 'green', weight: 7}).addTo(map);
         
 // Bind popup to line object
-        myDataLineUmd.bindPopup("<h3>Tischer Creek Bridge</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>")   
+        myDataLineUmd.bindPopup('<h3>Tischer Creek Bridge</h3><p>This is not a video from this part of the creek</p><iframe width="400" height="255" src="https://www.youtube.com/embed/ISgRbF1V3Nc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>', {
+                                maxWidth: 420
+                                })
+            .addTo(map);   
 
 // Create area feature for Tennis Courts, style and add to map
         var myAreaUmd = L.polygon([[46.817994, -92.081622], [46.817724, -92.080985],
@@ -161,7 +163,7 @@ Uneeded display of lat and long */
     {color: 'blue', weight: 4}).addTo(map);
         
 // Bind popup to area object
-        myAreaUmd.bindPopup("<h3>Tennis courts</h3><p>There is a cool little bridge here crossing Tischer Creek<br><br></p>");
+        myAreaUmd.bindPopup("<h3>Tennis courts</h3><h6>I dont play tennis</h6>");
 
 // Display lat/long with mouse over
 // Code adapted from https://kristofj-umd.github.io/webdev-f19/assignments/webdev3.html
@@ -170,7 +172,10 @@ Uneeded display of lat and long */
                     document.getElementById('mapCoordinates').innerHTML = 
                     'Map Coordinates | ' + JSON.stringify(hoverEvent.latlng);
                     });
-        
+
+// Here we will try to capture another user interaction
+// When clicking on a location, search for what is at that location
+
 /* Add WMS - not sure if it worked
    var nexrad = L.tileLayer.wms("http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi", {
         layers: 'nexrad-n0r-900913',
