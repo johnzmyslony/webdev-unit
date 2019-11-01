@@ -5,11 +5,23 @@
 	<title>Greatest Leaflet Map</title>
    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" />   
-   
+ 
+<!-- Relocated Leaflet and JQuery libraries here -->
+    
+<!-- Add the Leaflet JavaScript library -->
+    <script 
+        src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js">>
+    </script> 
+    
+<!-- Add JQuery external library -->
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"           integrity="sha256-36hEPcG8mKookfvUVvEqRkpdYV1unP6wvxIqbgdeVhk="             crossorigin="anonymous">
+    </script>
+    
     <style>
 /* CSS styling goes here */
 /* Following styling from webdev1 */
-/* Allow Map to fill page*/
+/* Allow Map to fill page */
 /* source: http://bl.ocks.org/d3noob/7654694 */
         body {
             padding: 0;
@@ -22,7 +34,7 @@
            map {
                top: 60px;
                 }   
-/*Stylize Header*/
+/* Stylize Header */
            header {
                top: 0;
                width: 100%;
@@ -36,7 +48,7 @@
                overflow: hidden;
                font-family: "Times New Roman", Times, serif;
                 }
-/* Display text inline*/
+/* Display text inline */
            header * {            
                Display: inline-block;
                margin-right: 20px;
@@ -62,18 +74,88 @@
             id="map">
         </div>
     
-<!-- Add the Leaflet JavaScript library -->
-    <script 
-        src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js">>
-    </script> 
-    
     <script>
+// Begin Webdev4 save
 // Create variable to hold map element, give initial settings to map
-        var map = L.map('map',{ center: [42.362432, -71.086086], zoom: 14});
+        var map = L.map('map',{ center: [46.792393, -92.123865], zoom: 13});
         
 // Add OpenStreetMap tile layer to map element
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
 
+// Following Code Snippet copied from https://github.com/gis4533-fall2019/webdev-unit/blob/master/precincts-geojson.js
+        
+// ********** Begin Code Snippet Copy **********
+        
+// load GeoJSON from an external file        
+        $.getJSON("../webdev-unit/duluth.geojson",function(data){
+                console.log(data)
+// add GeoJSON layer to the map once the file is loaded
+    L.geoJson(data,{
+        style: function (feature) {
+
+            // calculate third party percent of vote using function
+            var thirdPartyPct = calculateThirdPartyPct(feature);
+
+            // assign colors from the ColorBrewer yellow-green scale
+            var fill;
+            // equal interval classification
+            // 7% or less
+            if (thirdPartyPct <= 7) {
+                fill = '#f7fcb9';
+            }
+            // 11% or less
+            else if (thirdPartyPct <= 11) {
+                fill = '#addd8e';
+            }
+            // 12% or more
+            else {
+                fill = '#31a354';
+            }
+
+            // FIXME: remove existing symbolization and create a diverging
+            // symbology based the democrat or republic vote as a percent
+            // of the total vote.
+            // Use Colorbrewer's 5-class Red-Blue colors for this
+            // http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=5
+
+            // return style specification
+            return {
+                color: '#636363',
+                weight: 2,
+                fillColor: fill,
+                fillOpacity: 0.7
+            }
+        },
+
+        // do something to each feature
+        // in this case create a popup
+        onEachFeature: function (feature, layer) {
+            var thirdPartyPct = calculateThirdPartyPct(feature);
+            // show name of precinct and third party percent in popup
+            layer.bindPopup(
+                "<h3>" + feature.properties.PCTNAME + "</h3>" +
+                "<p>Third Party Vote: " + thirdPartyPct + "%</p>"
+            );
+        }
+    }).addTo(map);
+});	
+
+// a function that takes a feature and returns the percent of the vote
+// that doesn't belong to Republican or Democrat (ie. Third Party)
+function calculateThirdPartyPct(feature) {
+    var demVote = feature.properties.USPRSDFL;
+    var repVote = feature.properties.USPRSR;
+    var totalVote = feature.properties.USPRSTOTAL;
+    // third party vote is whatever is left over from dem and rep vote
+    var thirdPartyVote = (totalVote - demVote - repVote);
+    // calculate as a percent of the total vote
+    var thirdPartyPct = Math.round(thirdPartyVote/totalVote*100);
+    // return the third party percent for this feature
+    return thirdPartyPct;
+}
+        
+// ********** End Code Snippet Copy **********
+        
 /*Bloacked out following for webdev1 save
 
 // Create point feature for Kendall Square T Station
