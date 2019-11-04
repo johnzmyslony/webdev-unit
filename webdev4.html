@@ -87,8 +87,7 @@
 // ********** Begin Code Snippet Copy **********
         
 // load GeoJSON from an external file        
-        $.getJSON("../webdev-unit/duluth.geojson",function(data){
-                console.log(data)
+        $.getJSON("webdev-unit/duluth.geojson",function(data){
 // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data,{
         style: function (feature) {
@@ -183,7 +182,6 @@ function calculateThirdPartyPct(feature) {
 Blocked out previous for webdev1 save */
         
     </script>
-<!-- Webdev1 end -->
     
 </body>
 </html>
