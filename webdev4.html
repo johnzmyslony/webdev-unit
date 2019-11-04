@@ -14,9 +14,9 @@
     </script> 
     
 <!-- Add JQuery external library -->
-    <script 
+   <!-- <script 
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js"           integrity="sha256-36hEPcG8mKookfvUVvEqRkpdYV1unP6wvxIqbgdeVhk="             crossorigin="anonymous">
-    </script>
+    </script> -->
     
     <style>
 /* CSS styling goes here */
@@ -69,6 +69,8 @@
         <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>  
     </header> 
     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
 <!-- Our web map and content will go here -->
         <div 
             id="map">
@@ -87,10 +89,12 @@
 // ********** Begin Code Snippet Copy **********
         
 // load GeoJSON from an external file        
-        $.getJSON("webdev-unit/duluth.geojson",function(data){
+        $.getJSON("duluth.geojson",function(data){
 // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data,{
         style: function (feature) {
+            
+            console.log(feature);
 
             // calculate third party percent of vote using function
             var thirdPartyPct = calculateThirdPartyPct(feature);
