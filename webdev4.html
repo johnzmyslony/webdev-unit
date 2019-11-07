@@ -64,7 +64,7 @@
 <!-- Webdev1 start -->
 <!-- Header to be placed at top of web page -->
     <header  id="header">
-        <h2> The Greatest Leaflet Map to Ever Exist</h2>
+        <h2> Voting Precincts 2016 Results</h2>
         <h3>I built this with <a href="https://leafletjs.com/" target="_blank">Leaflet</a></h3>
         <h5 class="right">John Zmyslony | Fall 2019 | GIS 4533 at UMD</h5>  
     </header> 
@@ -79,10 +79,20 @@
     <script>
 // Begin Webdev4 save
 // Create variable to hold map element, give initial settings to map
-        var map = L.map('map',{ center: [46.792393, -92.123865], zoom: 13});
+        var map = L.map('map',{ center: [46.792393, -92.123865], zoom: 11});
+        
+// Add cooler basemap
+// Its not a perfect basemap for this project but I think its cool so im sticking with it
+       var Stamen_Toner = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	subdomains: 'abcd',
+	minZoom: 0,
+	maxZoom: 20,
+	ext: 'png'
+}).addTo(map); 
         
 // Add OpenStreetMap tile layer to map element
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+    // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
 
 // Following Code Snippet copied from https://github.com/gis4533-fall2019/webdev-unit/blob/master/precincts-geojson.js
         
@@ -93,26 +103,42 @@
 // add GeoJSON layer to the map once the file is loaded
     L.geoJson(data,{
         style: function (feature) {
+
+            // calculate percent of vote using a function
+            var votePcts = calculatePartyPct(feature);
             
-            console.log(feature);
-
-            // calculate third party percent of vote using function
-            var thirdPartyPct = calculateThirdPartyPct(feature);
-
-            // assign colors from the ColorBrewer yellow-green scale
+            // set up a fill variable to assign values to
             var fill;
-            // equal interval classification
-            // 7% or less
-            if (thirdPartyPct <= 7) {
-                fill = '#f7fcb9';
+            
+            //assign colors from ColorBrewer scale
+            var colors = ['#ca0020','#f4a582','#f7f7f7','#92c5de','#0571b0'];
+            
+            //show percentages in console
+            console.log('votePcts', votePcts)
+            
+            // rep 40% or more
+            if (votePcts.rep >= 40) {
+                fill = colors[0];
             }
-            // 11% or less
-            else if (thirdPartyPct <= 11) {
-                fill = '#addd8e';
+            
+            // rep 35% or more
+            else if (votePcts.rep >= 35) {
+                fill = colors[1];
             }
-            // 12% or more
+            
+            // fairly even
+            else if (votePcts.rep >= 30 && votePcts.dem <= 59) {
+                fill = colors[2];
+            }
+            
+            // dem 65% or more
+            else if (votePcts.dem >= 60 && votePcts.dem <= 65) {
+                fill = colors[3];
+            }
+            
+            // dem 75% or more
             else {
-                fill = '#31a354';
+                fill = colors[4];
             }
 
             // FIXME: remove existing symbolization and create a diverging
@@ -133,11 +159,11 @@
         // do something to each feature
         // in this case create a popup
         onEachFeature: function (feature, layer) {
-            var thirdPartyPct = calculateThirdPartyPct(feature);
+            var votePcts = calculatePartyPct(feature);
             // show name of precinct and third party percent in popup
             layer.bindPopup(
                 "<h3>" + feature.properties.PCTNAME + "</h3>" +
-                "<p>Third Party Vote: " + thirdPartyPct + "%</p>"
+                "<p>Dem Vote: <span class='dem'>" + votePcts.dem + "%</span></p>" + "<p>Rep Vote: <span class='rep'>" + votePcts.rep + "%</span></p>"
             );
         }
     }).addTo(map);
@@ -145,16 +171,19 @@
 
 // a function that takes a feature and returns the percent of the vote
 // that doesn't belong to Republican or Democrat (ie. Third Party)
-function calculateThirdPartyPct(feature) {
+function calculatePartyPct(feature) {
     var demVote = feature.properties.USPRSDFL;
     var repVote = feature.properties.USPRSR;
     var totalVote = feature.properties.USPRSTOTAL;
-    // third party vote is whatever is left over from dem and rep vote
-    var thirdPartyVote = (totalVote - demVote - repVote);
-    // calculate as a percent of the total vote
-    var thirdPartyPct = Math.round(thirdPartyVote/totalVote*100);
-    // return the third party percent for this feature
-    return thirdPartyPct;
+    // Calculate dem vote as a percent of total vote
+    var demPctVote = Math.round(demVote/totalVote*100);
+    // calculate rep vote as a percent of the total vote
+    var repPctVote = Math.round(repVote/totalVote*100);
+    // return the voting percentages
+    return {
+        dem: demPctVote,
+        rep: repPctVote
+    };
 }
         
 // ********** End Code Snippet Copy **********
