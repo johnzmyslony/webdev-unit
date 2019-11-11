@@ -58,8 +58,12 @@
         });
         // add basemap
         L.esri.basemapLayer('Gray').addTo(map);
-         // add hosted vector tile layer
+         
+        // add hosted vector tile layer
         L.esri.Vector.layer('fc7a863ad305489a9bf6fadd7fa4d0df').addTo(map);
+        
+         // add hosted feature layer
+        // const earthquakesLayer = L.esri.featureLayer({url: 'https://umn.maps.arcgis.com/home/item.html?id=c0dda3625d57456c9ab1a2f33af2a082'}).addTo(map);
     </script>
 </body>
 </html>
